@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Bengkulu Digital Heritage</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Plus+Jakarta+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <!-- Leaflet: library peta open-source gratis, tidak butuh API key.
+       Tile peta diambil dari OpenStreetMap (juga gratis). -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+
+  <!-- jsQR: pembaca kode QR open-source gratis, murni JavaScript,
+       tidak butuh API key atau server. Dipakai di halaman AR untuk
+       membaca QR lewat kamera maupun foto dari galeri. -->
+  <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Navbar desktop + mobile diisi ulang oleh script.js setiap ganti halaman -->
+  <div id="nav"></div>
+
+  <!-- Konten halaman aktif dirender di sini oleh router -->
+  <main id="app" tabindex="-1"></main>
+
+  <!-- Footer -->
+  <div id="ft"></div>
+
+  <!-- Bottom navigation (mobile) -->
+  <div id="bn"></div>
+
+  <!-- Overlay untuk modal / lightbox -->
+  <div id="ov"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>

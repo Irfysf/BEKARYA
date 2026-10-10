@@ -1,0 +1,1205 @@
+/* =========================================================
+   Bengkulu Digital Heritage — Prototype Stylesheet
+   Design tokens + component styles for the AR/GIS cultural
+   heritage & creative-economy prototype.
+   ========================================================= */
+
+/* ===== Design Tokens ===== */
+:root {
+  --bg:#f7f0e3;
+  --surf:#fffaf1;
+  --ink:#2a1a14;
+  --mut:#6b5a4e;
+  --line:#e2d3bb;
+  --pri:#7a1f2b;
+  --pri2:#5a1420;
+  --gold:#b8893b;
+  --grn:#4f6b4a;
+  --ok:#3f7a4a;
+  --warn:#b7791f;
+  --err:#b3261e;
+  --r:12px;
+  --nav-h:64px;
+}
+:root:not([data-theme=light]) {
+}
+@media(prefers-color-scheme:dark) {
+  :root:not([data-theme=light]) {
+    --bg:#1c1310;
+    --surf:#271b16;
+    --ink:#f3e8d6;
+    --mut:#c2ae98;
+    --line:#42302a;
+    --pri:#d0707c;
+    --pri2:#e58f99;
+    --gold:#d9a94f;
+  }
+}
+:root[data-theme=dark] {
+  --bg:#1c1310;
+  --surf:#271b16;
+  --ink:#f3e8d6;
+  --mut:#c2ae98;
+  --line:#42302a;
+  --pri:#d0707c;
+  --pri2:#e58f99;
+  --gold:#d9a94f;
+}
+:root {
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+}
+
+/* ===== Base Reset ===== */
+html {
+  scroll-padding-top:80px;
+  scroll-behavior:smooth;
+}
+*, *:before, *:after {
+  box-sizing:inherit;
+}
+body {
+  margin:0;
+  background:var(--bg);
+  color:var(--ink);
+  font:400 16px/1.6 'Plus Jakarta Sans',system-ui,sans-serif;
+  overflow-x:hidden;
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+h1, h2, h3 {
+  font-family:'Playfair Display',Georgia,serif;
+  line-height:1.15;
+  margin:0 0 .5em;
+  font-weight:700;
+}
+h1 {
+  font-size:clamp(2.4rem,6vw,4.6rem);
+}
+h2 {
+  font-size:clamp(1.7rem,3.5vw,2.5rem);
+}
+h3 {
+  font-size:1.25rem;
+}
+a {
+  color:inherit;
+  text-decoration:none;
+}
+button {
+  font:inherit;
+  cursor:pointer;
+}
+:focus-visible {
+  outline:3px solid var(--gold);
+  outline-offset:2px;
+}
+
+/* ===== Layout Helpers ===== */
+.w {
+  max-width:1280px;
+  margin:0 auto;
+  padding:0 24px;
+}
+.sec {
+  padding:72px 0;
+}
+.mut {
+  color:var(--mut);
+}
+.small {
+  font-size:.85rem;
+}
+
+/* ===== Buttons & Badges ===== */
+.btn {
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:12px 22px;
+  border-radius:999px;
+  border:1.5px solid var(--pri);
+  background:var(--pri);
+  color:#fff;
+  font-weight:700;
+  transition:.2s;
+}
+:root[data-theme=dark] .btn {
+  color:#1c1310;
+}
+@media(prefers-color-scheme:dark) {
+  :root:not([data-theme=light]) .btn {
+    color:#1c1310;
+  }
+}
+/* Tombol outline (.btn.o) harus tetap memakai warna aksen di dark mode.
+   Aturan .btn di atas punya specificity lebih tinggi daripada .btn.o,
+   sehingga tanpa baris ini teksnya ikut menjadi gelap dan tidak terlihat. */
+:root[data-theme=dark] .btn.o {
+  color:var(--pri);
+}
+@media(prefers-color-scheme:dark) {
+  :root:not([data-theme=light]) .btn.o {
+    color:var(--pri);
+  }
+}
+.btn.o, .hero .btn.o {
+  color:var(--pri);
+}
+.hero .btn.o {
+  color:#fdf3df;
+}
+.btn:hover {
+  transform:translateY(-2px);
+}
+.btn:active {
+  transform:scale(.97);
+}
+.btn.o {
+  background:transparent;
+  color:var(--pri);
+}
+.btn.g {
+  background:var(--gold);
+  border-color:var(--gold);
+  color:#2a1a14;
+}
+.badge {
+  display:inline-block;
+  padding:2px 10px;
+  border-radius:99px;
+  background:var(--line);
+  font-size:.75rem;
+  font-weight:700;
+  color:var(--ink);
+}
+
+/* ===== Icons ===== */
+svg.i {
+  width:20px;
+  height:20px;
+  fill:none;
+  stroke:currentColor;
+  stroke-width:2;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+  flex:none;
+}
+
+/* ===== Navbar (Desktop) ===== */
+/* Wrapper #nav dibuat "transparan" untuk layout. Tanpa ini, navbar sticky
+   hanya bisa menempel di dalam #nav yang setinggi dirinya sendiri, sehingga
+   ikut ter-scroll dan tidak pernah menempel di atas layar. */
+#nav {
+  display:contents;
+}
+nav.top {
+  position:sticky;
+  top:0;
+  z-index:50;
+  transition:.3s;
+  height:var(--nav-h);
+}
+nav.top.s {
+  background:color-mix(in srgb,var(--bg) 82%,transparent);
+  backdrop-filter:blur(12px);
+  box-shadow:0 1px 0 var(--line);
+}
+nav .w {
+  display:flex;
+  align-items:center;
+  gap:20px;
+  height:100%;
+}
+.logo b {
+  font:700 1.3rem 'Playfair Display',serif;
+  color:var(--pri);
+  letter-spacing:.06em;
+  display:block;
+  line-height:1;
+}
+.logo {
+  flex:none;
+}
+.logo span {
+  display:block;
+  font-size:.62rem;
+  color:var(--mut);
+  white-space:nowrap;
+}
+nav .btn.cta {
+  padding:8px 18px;
+  white-space:nowrap;
+  flex:none;
+}
+nav .links {
+  display:flex;
+  gap:4px;
+  margin-left:auto;
+  /* Kalau menu tidak muat, geser ke samping (scroll) alih-alih
+     membungkus ke baris kedua — item yang membungkus akan menambah
+     tinggi navbar, padahal seluruh halaman (hero, banner profil,
+     dsb.) mengasumsikan tingginya tetap 64px lewat margin-top:-64px.
+     Navbar yang jadi 2 baris membuat konten di bawahnya ikut naik
+     dan bertabrakan dengan menu. */
+  overflow-x:auto;
+  scrollbar-width:none;
+}
+nav .links::-webkit-scrollbar {
+  display:none;
+}
+nav .links a {
+  padding:8px 12px;
+  border-radius:99px;
+  font-size:.9rem;
+  font-weight:500;
+  white-space:nowrap;
+  flex:none;
+}
+nav .links a:hover, nav .links a.on {
+  background:var(--line);
+}
+.ic {
+  background:none;
+  border:0;
+  color:var(--ink);
+  padding:8px;
+  border-radius:50%;
+}
+.ic:hover {
+  background:var(--line);
+}
+
+/* ===== Bottom Navigation (Mobile) ===== */
+.bn {
+  display:none;
+  position:fixed;
+  bottom:0;
+  left:0;
+  right:0;
+  z-index:60;
+  background:var(--surf);
+  border-top:1px solid var(--line);
+  padding:6px 4px calc(6px + env(safe-area-inset-bottom,0px));
+  justify-content:space-around;
+}
+.bn a {
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  font-size:.68rem;
+  gap:2px;
+  padding:4px 10px;
+  color:var(--mut);
+}
+.bn a.on {
+  color:var(--pri);
+  font-weight:700;
+}
+
+/* ===== Art / Image Placeholder Blocks ===== */
+.art {
+  position:relative;
+  background:linear-gradient(135deg,var(--a),var(--b));
+  overflow:hidden;
+}
+/* Foto asli (bila ada) mengisi penuh blok .art, di atas gradasi.
+   Gradasi tetap terlihat selagi foto dimuat dan menjadi fallback
+   otomatis bila gambar gagal dimuat (lihat art() di script.js). */
+.art img {
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+}
+/* Monogram inisial judul, dipakai sebagai placeholder saat belum
+   ada foto asli (lihat art() di script.js). Tidak memuat apa pun
+   dari internet, jadi selalu tampil di mana pun artifact ini dibuka. */
+.art-mono {
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family:'Playfair Display',serif;
+  font-weight:700;
+  font-size:clamp(1.6rem,6vw,3rem);
+  color:#ffffff40;
+  letter-spacing:.04em;
+  user-select:none;
+  pointer-events:none;
+}
+/* Lapisan gelap transparan di atas foto hero, agar teks putih di
+   atasnya tetap terbaca (dipakai khusus halaman detail budaya). */
+.scrim {
+  position:absolute;
+  inset:0;
+  background:linear-gradient(180deg,#0005,#00000099 70%);
+}
+.art:after {
+  content:"";
+  position:absolute;
+  inset:0;
+  background:repeating-linear-gradient(45deg,#fff2 0 1.5px,transparent 1.5px 16px),repeating-linear-gradient(-45deg,#fff2 0 1.5px,transparent 1.5px 16px);
+  mix-blend-mode:soft-light;
+  transition:transform .5s;
+}
+.card:hover .art:after {
+  transform:scale(1.08);
+}
+
+/* ===== Cards & Grids ===== */
+.grid {
+  display:grid;
+  gap:22px;
+  grid-template-columns:repeat(auto-fill,minmax(250px,1fr));
+}
+.card {
+  background:var(--surf);
+  border:1px solid var(--line);
+  border-radius:var(--r);
+  overflow:hidden;
+  position:relative;
+  transition:.25s;
+  display:block;
+}
+.card:hover {
+  transform:translateY(-4px);
+  box-shadow:0 14px 30px #2a1a1422;
+}
+.card .art {
+  aspect-ratio:16/10;
+}
+.card .bd {
+  padding:16px;
+}
+.card .bd p {
+  margin:.3em 0;
+  font-size:.9rem;
+  color:var(--mut);
+}
+.list .card {
+  display:flex;
+}
+.list .card .art {
+  width:220px;
+  aspect-ratio:auto;
+  flex:none;
+}
+.fav {
+  position:absolute;
+  top:10px;
+  right:10px;
+  z-index:2;
+  width:36px;
+  height:36px;
+  border-radius:50%;
+  border:0;
+  background:#fffaf1e6;
+  color:var(--pri);
+  display:grid;
+  place-items:center;
+}
+.fav.on svg {
+  fill:currentColor;
+  animation:pop .3s;
+}
+@keyframes pop {
+  50% {
+    transform:scale(1.35);
+  }
+}
+
+/* ===== Hero Section ===== */
+.hero {
+  background:linear-gradient(160deg,#3a0f16,var(--pri) 55%,#8a5a1f);
+  color:#fdf3df;
+  position:relative;
+  overflow:hidden;
+  margin-top:calc(-1 * var(--nav-h));
+  padding:150px 0 90px;
+}
+.hero:before {
+  content:"";
+  position:absolute;
+  inset:0;
+  background:repeating-linear-gradient(45deg,#ffffff0d 0 2px,transparent 2px 26px),repeating-linear-gradient(-45deg,#ffffff0d 0 2px,transparent 2px 26px);
+}
+/* Tumpukan foto yang saling fade (lihat fadeStack() di script.js).
+   Dipakai di dalam section.hero sebagai latar, dan di dalam .ar .obj
+   sebagai "objek" yang terdeteksi. Ditempatkan sebagai elemen DOM
+   nyata, jadi otomatis tampil di atas pola dekoratif :before, dan
+   otomatis ada di BAWAH konten teks (.w) karena urutan render DOM
+   biasa — tidak perlu z-index tambahan. */
+.fade-stack {
+  position:absolute;
+  inset:0;
+  overflow:hidden;
+}
+.fade-stack img {
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+  opacity:0;
+  transition:opacity 1.6s ease;
+}
+.fade-stack img.active {
+  opacity:1;
+}
+@media(prefers-reduced-motion:reduce) {
+  .fade-stack img {
+    transition:none;
+  }
+}
+.hero .w {
+  position:relative;
+}
+.hero h1 {
+  max-width:12em;
+}
+.hero p {
+  max-width:34em;
+  font-size:1.1rem;
+  opacity:.9;
+}
+.hero .btn {
+  background:var(--gold);
+  border-color:var(--gold);
+  color:#2a1a14;
+}
+.hero .btn.o {
+  background:transparent;
+  color:#fdf3df;
+  border-color:#fdf3df88;
+}
+
+/* ===== Hero Stat Chips ===== */
+.stats {
+  display:flex;
+  flex-wrap:wrap;
+  gap:14px;
+  margin-top:44px;
+}
+.stats div {
+  background:#ffffff1c;
+  backdrop-filter:blur(8px);
+  border:1px solid #ffffff33;
+  border-radius:var(--r);
+  padding:12px 18px;
+}
+.stats b {
+  font:700 1.5rem 'Playfair Display',serif;
+  display:block;
+}
+
+/* ===== Chips / Filters ===== */
+.chips {
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+}
+.chip {
+  padding:8px 16px;
+  border-radius:99px;
+  border:1px solid var(--line);
+  background:var(--surf);
+  color:var(--ink);
+  font-size:.88rem;
+}
+.chip.on, .chip:hover {
+  background:var(--pri);
+  color:#fff;
+  border-color:var(--pri);
+}
+
+/* ===== Form Inputs ===== */
+.inp {
+  width:100%;
+  padding:14px 18px;
+  border-radius:99px;
+  border:1.5px solid var(--line);
+  background:var(--surf);
+  color:var(--ink);
+  font:inherit;
+}
+select.inp {
+  width:auto;
+  padding:10px 16px;
+}
+.bar {
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin:20px 0;
+}
+.bar .inp:first-child {
+  flex:1;
+  min-width:220px;
+}
+
+/* ===== Split / Story Layout ===== */
+.split {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:48px;
+  align-items:center;
+}
+
+/* ===== Map (Leaflet / OpenStreetMap) =====
+   .map is the positioned wrapper; #appMap is the live Leaflet
+   container injected by script.js; .loc is the floating location
+   card that sits on top of the map when a marker is selected. */
+.map {
+  position:relative;
+  border-radius:var(--r);
+  overflow:hidden;
+  min-height:440px;
+  background:var(--line); /* visible if OSM tiles fail to load */
+  border:1px solid var(--line);
+}
+#appMap {
+  position:absolute;
+  inset:0;
+  /* z-index (sekalipun 0) membuat elemen ini punya stacking context
+     sendiri, sehingga panel internal Leaflet (z-index sampai 700)
+     terkurung di dalamnya dan tidak pernah menutupi elemen saudara
+     seperti .loc di bawah. Tanpa baris ini, panel Leaflet akan
+     "bocor" ke level yang sama dengan .loc dan menang karena
+     angkanya lebih besar. */
+  z-index:0;
+}
+.leaflet-container {
+  font:inherit;
+  background:var(--line);
+}
+
+/* Custom marker (Leaflet divIcon) — colour is set inline per
+   category via style="background:...;color:..." so the pulse
+   ring (currentColor) and pin icon (fill) both follow it. */
+.mk-pin {
+  width:30px;
+  height:30px;
+  border-radius:50%;
+  border:3px solid #fff;
+  display:grid;
+  place-items:center;
+  box-shadow:0 3px 8px #0006;
+  cursor:pointer;
+  position:relative;
+}
+.mk-pin:after {
+  content:"";
+  position:absolute;
+  inset:-3px;
+  border-radius:50%;
+  border:2px solid currentColor;
+  animation:pl 2s infinite;
+}
+.mk-pin.on {
+  outline:3px solid var(--gold);
+  z-index:1000 !important;
+}
+@keyframes pl {
+  to {
+    transform:scale(1.9);
+    opacity:0;
+  }
+}
+.mk-pin svg {
+  width:14px;
+  height:14px;
+  fill:#fff;
+  stroke:#fff;
+}
+.loc {
+  position:absolute;
+  left:16px;
+  right:16px;
+  bottom:16px;
+  z-index:10;
+  background:var(--surf);
+  border-radius:var(--r);
+  padding:16px;
+  max-width:380px;
+  box-shadow:0 10px 30px #0005;
+}
+
+/* ===== Map Page Layout ===== */
+.mapl {
+  display:grid;
+  grid-template-columns:280px 1fr;
+  gap:22px;
+}
+.mapl .map {
+  min-height:600px;
+}
+.side {
+  background:var(--surf);
+  border:1px solid var(--line);
+  border-radius:var(--r);
+  padding:18px;
+}
+.side label {
+  display:flex;
+  gap:8px;
+  padding:6px 0;
+}
+
+/* ===== AR Experience Simulation ===== */
+.ar {
+  background:#120c0a;
+  border-radius:24px;
+  /* width:100% wajib: di dalam grid (.split) margin auto membuat lebar
+     menyusut ke isi. Semua isi .ar berposisi absolute, jadi lebarnya 0
+     dan bingkai (beserta foto di dalamnya) tidak terlihat. */
+  width:100%;
+  max-width:380px;
+  margin:0 auto;
+  aspect-ratio:9/16;
+  position:relative;
+  overflow:hidden;
+  color:#fff;
+  border:6px solid #3b2a22;
+}
+.ar .cam {
+  position:absolute;
+  inset:0;
+  background:radial-gradient(circle at 50% 40%,#3d2c25,#0d0807);
+}
+/* Video live dari kamera perangkat (lihat scanMarker() di script.js).
+   Tersembunyi secara default; ditampilkan menimpa .cam begitu izin
+   kamera diberikan dan stream berhasil didapat. */
+.ar-video {
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:none;
+  background:#000;
+}
+.ar-video.on {
+  display:block;
+}
+.ar .frame {
+  position:absolute;
+  left:18%;
+  right:18%;
+  top:26%;
+  height:34%;
+  border:2px dashed var(--gold);
+  border-radius:14px;
+}
+.ar .ln {
+  position:absolute;
+  left:18%;
+  right:18%;
+  height:3px;
+  background:var(--gold);
+  box-shadow:0 0 14px var(--gold);
+  animation:sc 1.6s ease-in-out infinite alternate;
+}
+@keyframes sc {
+  from {
+    top:26%;
+  }
+  to {
+    top:60%;
+  }
+}
+.ar .top, .ar .bot {
+  position:absolute;
+  left:0;
+  right:0;
+  padding:14px;
+  display:flex;
+  justify-content:space-between;
+  gap:8px;
+  align-items:center;
+  z-index:2;
+}
+.ar .top {
+  top:0;
+}
+.ar .bot {
+  bottom:0;
+  flex-wrap:wrap;
+}
+.ar .obj {
+  position:absolute;
+  left:12%;
+  right:12%;
+  top:30%;
+  height:26%;
+  border-radius:14px;
+  overflow:hidden;
+  animation:fl 3s ease-in-out infinite;
+}
+@keyframes fl {
+  50% {
+    transform:translateY(-8px) rotateY(12deg);
+  }
+}
+.ar .info {
+  position:absolute;
+  left:12px;
+  right:12px;
+  bottom:70px;
+  background:#fffaf1;
+  color:var(--ink);
+  border-radius:14px;
+  padding:14px;
+  z-index:3;
+}
+
+/* ===== Timeline ===== */
+.tl {
+  border-left:2px solid var(--gold);
+  margin-left:8px;
+  padding-left:24px;
+}
+.tl .it {
+  position:relative;
+  padding-bottom:28px;
+}
+.tl .it:before {
+  content:"";
+  position:absolute;
+  left:-32px;
+  top:6px;
+  width:14px;
+  height:14px;
+  border-radius:50%;
+  background:var(--pri);
+  border:3px solid var(--bg);
+}
+.tl .it b {
+  font-family:'Playfair Display',serif;
+  color:var(--pri);
+}
+
+/* ===== Accordion (details/summary) ===== */
+details {
+  border-bottom:1px solid var(--line);
+  padding:14px 0;
+}
+summary {
+  font-weight:700;
+  cursor:pointer;
+}
+
+/* ===== Tabs ===== */
+.tabs {
+  display:flex;
+  gap:6px;
+  border-bottom:1px solid var(--line);
+  margin-bottom:22px;
+  overflow-x:auto;
+}
+.tabs button {
+  background:none;
+  border:0;
+  padding:10px 16px;
+  color:var(--mut);
+  border-bottom:3px solid transparent;
+}
+.tabs .on {
+  color:var(--pri);
+  border-color:var(--pri);
+  font-weight:700;
+}
+
+/* ===== Empty & Loading States ===== */
+.empty {
+  text-align:center;
+  padding:60px 20px;
+  border:2px dashed var(--line);
+  border-radius:var(--r);
+}
+.sk {
+  height:200px;
+  border-radius:var(--r);
+  background:linear-gradient(90deg,var(--line),var(--surf),var(--line));
+  background-size:200% 100%;
+  animation:sk 1.2s infinite;
+}
+@keyframes sk {
+  to {
+    background-position:-200% 0;
+  }
+}
+
+/* ===== Toast & Modal ===== */
+.toast {
+  position:fixed;
+  left:50%;
+  bottom:90px;
+  transform:translateX(-50%);
+  background:var(--ink);
+  color:var(--bg);
+  padding:10px 20px;
+  border-radius:99px;
+  z-index:99;
+  font-size:.9rem;
+  animation:up .3s;
+}
+@keyframes up {
+  from {
+    opacity:0;
+    transform:translate(-50%,10px);
+  }
+}
+.modal {
+  position:fixed;
+  inset:0;
+  background:#000a;
+  z-index:90;
+  display:grid;
+  place-items:center;
+  padding:16px;
+}
+.modal>div {
+  background:var(--surf);
+  border-radius:var(--r);
+  padding:26px;
+  max-width:460px;
+  width:100%;
+}
+
+/* ===== Breadcrumb & Meta ===== */
+.crumb {
+  font-size:.85rem;
+  color:var(--mut);
+  margin-bottom:16px;
+}
+.crumb a:hover {
+  color:var(--pri);
+}
+.meta {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+  gap:12px;
+  margin:24px 0;
+}
+.meta div {
+  background:var(--surf);
+  border:1px solid var(--line);
+  border-radius:var(--r);
+  padding:12px;
+}
+
+/* ===== Editorial Story Block ===== */
+.story {
+  display:grid;
+  grid-template-columns:1.2fr 1fr;
+  border-radius:var(--r);
+  overflow:hidden;
+  background:var(--surf);
+  border:1px solid var(--line);
+}
+.story .art {
+  min-height:340px;
+}
+.story>div:last-child {
+  padding:40px;
+}
+
+/* ===== Footer ===== */
+footer {
+  background:#24120f;
+  color:#e9dcc6;
+  padding:56px 0 100px;
+  margin-top:40px;
+}
+footer .w {
+  display:grid;
+  grid-template-columns:2fr 1fr 1fr 1fr;
+  gap:30px;
+}
+footer a {
+  display:block;
+  padding:3px 0;
+  opacity:.8;
+}
+footer a:hover {
+  opacity:1;
+}
+
+/* ===== Page Transition ===== */
+.pv {
+  animation:up2 .35s;
+}
+@keyframes up2 {
+  from {
+    opacity:0;
+  }
+}
+
+/* ===== Chat ===== */
+.ic, .bn a {
+  position:relative;
+}
+.nb {
+  position:absolute;
+  top:2px;
+  right:2px;
+  min-width:16px;
+  height:16px;
+  padding:0 4px;
+  border-radius:99px;
+  background:var(--pri);
+  color:var(--bg);
+  font:700 .62rem/16px 'Plus Jakarta Sans',sans-serif;
+  font-style:normal;
+  text-align:center;
+}
+.nb[hidden] {
+  display:none;
+}
+.bn a .nb {
+  top:0;
+  right:6px;
+}
+body.chat-open #ft, body.chat-open #bn {
+  display:none;
+}
+body.chat-open {
+  padding-bottom:0;
+}
+.chatpage {
+  display:flex;
+  flex-direction:column;
+  max-width:760px;
+  height:calc(100vh - var(--nav-h));
+  height:calc(100dvh - var(--nav-h));
+  margin:0 auto;
+  background:var(--surf);
+  border-left:1px solid var(--line);
+  border-right:1px solid var(--line);
+}
+.chead {
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:10px 14px;
+  border-bottom:1px solid var(--line);
+}
+.chead .back svg {
+  transform:scaleX(-1);
+}
+.cav {
+  width:42px;
+  height:42px;
+  border-radius:50%;
+  flex:none;
+}
+.cinfo {
+  display:flex;
+  flex-direction:column;
+  flex:1;
+  min-width:0;
+}
+.cinfo b {
+  font-family:'Playfair Display',serif;
+}
+.cmsgs {
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  padding:16px;
+  overflow-y:auto;
+  background:var(--bg);
+}
+.cm {
+  max-width:78%;
+  padding:9px 13px;
+  border-radius:16px;
+  line-height:1.45;
+  word-break:break-word;
+}
+.cm p {
+  margin:0;
+  white-space:pre-wrap;
+}
+.cm.me {
+  align-self:flex-end;
+  background:var(--pri);
+  color:var(--bg);
+  border-bottom-right-radius:4px;
+}
+.cm.them {
+  align-self:flex-start;
+  background:var(--surf);
+  border:1px solid var(--line);
+  border-bottom-left-radius:4px;
+}
+.ct {
+  display:flex;
+  justify-content:flex-end;
+  gap:8px;
+  margin-top:3px;
+  font-size:.68rem;
+  opacity:.8;
+}
+.cstat.bad {
+  padding:0;
+  background:none;
+  border:0;
+  color:inherit;
+  font:inherit;
+  text-decoration:underline;
+  cursor:pointer;
+}
+.cempty {
+  margin:auto;
+  text-align:center;
+}
+.cinput {
+  display:flex;
+  align-items:flex-end;
+  gap:10px;
+  padding:10px 14px calc(10px + env(safe-area-inset-bottom,0px));
+  border-top:1px solid var(--line);
+}
+.cinput textarea {
+  flex:1;
+  max-height:120px;
+  padding:10px 14px;
+  resize:none;
+  border:1px solid var(--line);
+  border-radius:20px;
+  background:var(--bg);
+  color:var(--ink);
+  font:inherit;
+  line-height:1.4;
+}
+.cinput textarea:focus-visible {
+  outline:2px solid var(--gold);
+}
+.cinput .btn {
+  flex:none;
+  padding:10px 14px;
+}
+.clist {
+  margin-top:24px;
+}
+.crow {
+  display:flex;
+  align-items:center;
+  gap:14px;
+  margin-bottom:10px;
+  padding:14px;
+  background:var(--surf);
+  border:1px solid var(--line);
+  border-radius:var(--r);
+}
+.crow:hover {
+  border-color:var(--gold);
+}
+.cprev {
+  overflow:hidden;
+  color:var(--mut);
+  font-size:.88rem;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+.cmeta {
+  display:flex;
+  flex-direction:column;
+  align-items:flex-end;
+  gap:4px;
+  color:var(--mut);
+  font-size:.72rem;
+}
+.cmeta .nb {
+  position:static;
+}
+
+/* ===== Halaman Penjual ===== */
+.seller-banner {
+  height:calc(var(--nav-h) + 160px);
+  margin-top:calc(-1 * var(--nav-h));
+}
+.seller-head {
+  position:relative;
+  z-index:2;
+  display:flex;
+  flex-wrap:wrap;
+  align-items:flex-start;
+  gap:0 18px;
+  margin-top:-46px;
+}
+.seller-avatar {
+  width:96px;
+  height:96px;
+  border-radius:50%;
+  border:4px solid var(--bg);
+  flex:none;
+}
+/* padding-top mendorong nama toko turun ke bawah tepi banner,
+   supaya teksnya tidak menimpa foto banner. */
+.seller-name {
+  padding-top:54px;
+}
+.seller-name h1 {
+  font-size:2rem;
+  margin:0;
+}
+
+/* ===== Responsive: Navbar sempit =====
+   Di bawah 1100px tombol CTA disembunyikan agar menu tidak terpotong. */
+@media(max-width:1100px) {
+  nav .cta {
+    display:none;
+  }
+}
+
+/* ===== Responsive: Tablet & Mobile ===== */
+@media(max-width:900px) {
+  nav .links, nav .cta {
+    display:none;
+  }
+  .bn {
+    display:flex;
+  }
+  .split, .story, .mapl, footer .w {
+    grid-template-columns:1fr;
+  }
+  .mapl .map {
+    min-height:70vh;
+  }
+  .list .card {
+    flex-direction:column;
+  }
+  .list .card .art {
+    width:auto;
+    aspect-ratio:16/10;
+  }
+  .sec {
+    padding:48px 0;
+  }
+  body {
+    padding-bottom:70px;
+  }
+  nav .ic.sp {
+    margin-left:auto;
+  }
+  .seller-name {
+    flex-basis:100%;
+    padding-top:10px;
+  }
+}
+
+/* ===== Accessibility: Reduced Motion ===== */
+@media(prefers-reduced-motion:reduce) {
+  * {
+    animation:none!important;
+    transition:none!important;
+    scroll-behavior:auto!important;
+  }
+}
